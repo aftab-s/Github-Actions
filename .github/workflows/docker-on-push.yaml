@@ -3,7 +3,7 @@ name: Publish Docker Image
 on:
   push:
     branches:
-      - main # Adjust the branch name as needed
+      - main
 
 jobs:
   build:
@@ -16,8 +16,12 @@ jobs:
     - name: Login to Docker Hub
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Get commit count
+      id: commit-count
+      run: echo "::set-output name=COUNT::$(git rev-list --count HEAD)"
+
     - name: Build Docker image
-      run: docker build -t aftab2010/gradient-website:latest .
+      run: docker build -t aftab2010/gradient-website:v${{ steps.commit-count.outputs.COUNT }} .
 
     - name: Push Docker image to Docker Hub
-      run: docker push aftab2010/gradient-website:latest
+      run: docker push aftab2010/gradient-website:v${{ steps.commit-count.outputs.COUNT }}
