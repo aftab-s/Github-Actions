@@ -20,4 +20,4 @@ jobs:
       run: docker build -t aftab2010/gradient-website:latest .
 
     - name: Push Docker image to Docker Hub
-      run: docker push aftab2010/gradient-website:latest:latest
+      run: docker push aftab2010/gradient-website:latest
